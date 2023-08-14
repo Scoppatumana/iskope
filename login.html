@@ -13,53 +13,43 @@
     <script src="../../assets/Javascript/jquery-library.js"></script>
 
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Admin Dashboard --- Create User</title>
+    <title>User Login</title>
 </head>
 
 <body>
-   
+
     <!-- Page Container -->
     <div class="default-page-container">
-        <form action="" method="post" class="admin-form auth-form animated zoomIn" enctype="multipart/form-data">
-            <h1 class="center">Sign Up</h1>
-
-            <div class="input-group avatar-input-group center">
-                <input type="file" name="avatar" id="avatar-input" class="hide avatar-input">
-                <button type="button" class="change-avatar-btn">
-                    <span>Change</span>
-                </button>
-                <label for="avatar-input">Profile Image (Optional)</label>
-            </div>
+        <form action="" method="post" class="admin-form auth-form small-form animated zoomIn" enctype="multipart/form-data">
+            <h1 class="center">Log In</h1>
 
             <div class="input-group">
-                <label for="title">Username</label>
+                <label for="title">Username or Email</label>
                 <input placeholder="Username" type="text" name="title" id="title" class="input-control" />
             </div>
 
             <div class="input-group">
-                <label for="title">Email</label>
-                <input placeholder="Email" type="email" name="email" id="title" class="input-control" />
-            </div>
-
-            <div class="input-group">
-                <label for="title">Password</label>
+                <div class="forgot-password-wrapper">
+                    <label for="title">Password</label>
+                    <small><a href="forgot-password.html">Forgot Password?</a></small>
+                </div>
                 <input placeholder="Password" type="password" name="password" id="password" class="input-control" />
             </div>
 
-
             <div class="input-group">
-                <label for="title">Password Confirmation</label>
-                <input placeholder="Password Confirmation" type="password" name="password_conf" id="password"
-                    class="input-control" />
+                <label for="remember-me">
+                <input type="checkbox" name="remember-me" id="remember-me" />
+                Remember me
+                </label>
             </div>
 
             <div class="input-group">
                 <button class="btn long-btn primary-btn big-btn">
-                    <i class="fa fa-plus"></i> Register
+                    <i class="fa fa-sign-in"></i> Login
                 </button>
             </div>
             <p class="center">
-                <small>Already have an account? You can <a href="login.html">Login</a>
+                <small>Already have an account? You can <a href="register.html">Login</a>
                 </small>
             </p>
         </form>

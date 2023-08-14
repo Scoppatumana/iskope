@@ -1,8 +1,4 @@
 /* ********************* DEFAULTS ********************* */
-html,body{
-    background: #fff;
-}
-
 .gray-1{
     color: slategray;
 }
@@ -73,27 +69,21 @@ html,body{
 
 /* ********************* COMPONENTS ********************* */
 /* Post Card */
-.post-card{
-    height: 480px;
-    width: 352px;
-    border-radius: 3px;
-    overflow: hidden;
-}
+
 
 .post-card .image-wrapper{
-    /* height: 180px; */
-    height: 38%;
+    height: 180px;
 }
 
 .post-card .post-info{
-    /* height: 300px; */
-    height: 62%;
+    height: 300px;
     padding: 15px;
     border: 1px solid rgba(0,0,0,0.125);
     display: flex;
     flex-direction: column;
     justify-content: space-between;
 }
+
 
 .post-card .post-info .topic-wrapper{
     display: flex;
@@ -182,6 +172,7 @@ html,body{
 /* Carousel Styles */
 .carousel-container{
     position: relative;
+    background-color: green;
 }
 
 .carousel-container .carousel-header{
@@ -228,7 +219,8 @@ html,body{
 .default-page-container{
     max-width: 1200px;
     margin: 0 auto;
-    padding: 32px;
+    padding-top: 112px;
+    padding-bottom: 20px;
     min-height: calc(100vh - 480px);
 }
 
@@ -385,6 +377,14 @@ html,body{
     padding-top: 20px;
 }
 
+
+@media all and (max-width:760px) {
+    .footer .footer-bottom{
+        line-height: 15px;
+        font-size: 0.9rem;
+        padding-top: 10px;
+    }
+}
 .footer-handles {
     float: none;
     padding: 0;
@@ -430,9 +430,9 @@ html,body{
     color: #fff;
 }
 
-.footer .footer-content .footer-section .big-btn{  
+/* .footer .footer-content .footer-section .big-btn{  
     position: static;
-}
+} */
 
 .footer .footer-content .footer-section.links ul{
     margin-top: 15px;
@@ -467,13 +467,6 @@ html,body{
     background: #1a1a1a;
 }
 
-.big-btn{
-    padding: .7rem 1.3rem; 
-    line-height: 1.3rem;
-    cursor: pointer;
-    font-size: 1rem;
-    float: right;
-}
 
 /* media query for footer */
 @media all and (max-width:930px) {
@@ -498,6 +491,7 @@ html,body{
 
 /* Single Post Page */
 .page-banner{
+    padding-top: 80px;
     height: auto;
     width: 100%;
     min-height: 300px;
@@ -618,12 +612,13 @@ html,body{
  }
 
  /* Suggested Posts */
+ 
 .single-page .carousel-container .slider-arrow{
     position: absolute;
     min-height: 300px;
     font-size: 2rem;
     z-index: 2;
-    background: transparent;
+    background: red;
     border: none;
     cursor: pointer;
 }
@@ -636,9 +631,19 @@ html,body{
     right: -40px;
 }
 
-.single-page .carousel-container .post-card{
+ .single-page .carousel-container .post-card{
     margin: 0 5px;
     height: 300px;
+    width: 352px;
+}
+
+.single-page .carousel-container .image-wrapper{
+    height: 150px;
+}
+
+
+.single-page .carousel-container .post-info{
+    height: 150px;
 }
 
 .single-page .carousel-container .slick-list{

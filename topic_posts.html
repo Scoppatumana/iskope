@@ -8,18 +8,20 @@
     <link type="text/css" rel="stylesheet" href="assets/css/style.css">
     <link type="text/css" rel="stylesheet" href="assets/css/public.css">
     <link type="text/css" rel="stylesheet" href="assets/awesome-font/css/font-awesome.min.css">
+    <link type="text/css" rel="stylesheet" href="assets/css/aos.css" />
+    <link type="text/css" rel="stylesheet" href="assets/css/animate.css" />
     <script src="assets/Javascript/script.js"></script>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Blog</title>
 </head>
 
 <body>
-    <header>
+    <header class="animated fadeInDown">
         <div class="nav-overlay"></div>
-        <span role="button" class="menu-icon">
+        <span role="button" class="menu-icon" onClick="_open_menu();">
             <i class="fa fa-bars fa-lg"></i>
         </span>
-        <a href="" class="logo-wrapper td-none">
+        <a href="index.html" class="logo-wrapper td-none">
             <div>
                 <span>Scope</span>Corner
             </div>
@@ -64,11 +66,47 @@
 
     </header>
 
+    <!-- hamburger -->
+    <div class="menu-bar-overall-div">
+        <div class="side-menu-bar">
+            <ul class="navmenu">
+                <li class="navitem"><a href="">All Posts</a></li>
+                <li class="navitem"><a href="">Politics</a></li>
+                <li class="navitem">
+                    <a href="#">Best Articles <i class="fa fa-chevron-down"></i></a>
+                    <ul class="dropdown">
+                        <li><a href="">Best of 2022</a></li>
+                        <li><a href="">Best of 2021</a></li>
+                        <li><a href="">Best of 2020</a></li>
+                        <li><a href="">Best of 2019</a></li>
+                    </ul>
+                </li>
+                <li class="navitem"><a href="">Life OT</a></li>
+                <li class="navitem"><a href="">Register</a></li>
+                <li class="navitem"><a href="">Login</a></li>
+                <li class="navitem">
+                    <a href="#"><i class="fa fa-user-circle"></i> Scope Soft <i class="fa fa-chevron-down"></i></a>
+                    <ul class="dropdown">
+                        <li><a href="admin/dashboard.html">Dashboard</a></li>
+                        <li><a href="">Logout</a></li>
+                    </ul>
+                </li>
+            </ul>
+            
+          </div>
+          <span  onClick="_close_menu();">
+            <i class="fa fa-window-close fa-2x"></i>
+        </span>
+        </div>
+        
+    <!-- /hamburger -->
+
+
 
     <!-- Page banner Starts -->
     <section class="page-banner">
         <div class="banner-container">
-            <div class="left-box">
+            <div class="left-box" data-aos="zoom-in" data-aos-duration="700">
                 <div class="breadcrumbs" role="navigation">
                     <small>
                         <a href="index.html">Home</a> >
@@ -91,7 +129,7 @@
                     </div>
                 </div>
             </div>
-            <div class="right-box">
+            <div class="right-box" data-aos="fade-left" data-aos-duration="800">
                 <div class="bg-image featured-image-wrapper" style="background-image: url(assets/images/company-employee-presenting-business-strategy-with-charts-monitor-planning-project-workmates-analyzing-financial-statistics-display-working-together-company-development_482257-37174.jpg);">
 
                 </div>
@@ -103,7 +141,7 @@
 
 
     <!-- Page Container -->
-    <div class="page-container default-page-container single-page">
+    <div class="page-container default-page-container single-page" data-aos="fade-up" data-aos-duration="900">
         <!-- Main Content -->
         <div class="main-content">
             <article class="post-card flat-card">
@@ -133,7 +171,7 @@
                             <img src="assets/images/Scope00.jpg" class="avatar" alt="author image">
                             <a href="#" class="grey-1 td-none link">Omisanya Boluwaduro</a>
                         </div>
-                        <a href="#" class="link" style="color: #205afd;">
+                        <a href="single-post.html" class="link" style="color: #205afd;">
                             Read More <i class="fa fa-arrow-right readmore-icon"></i>
                         </a>
                     </div>
@@ -169,7 +207,7 @@
                             <img src="assets/images/body-background5.jpg" class="avatar" alt="author image">
                             <a href="#" class="grey-1 td-none link">Omisanya Boluwaduro</a>
                         </div>
-                        <a href="#" class="link" style="color: #205afd;">
+                        <a href="single-post.html" class="link" style="color: #205afd;">
                             Read More <i class="fa fa-arrow-right readmore-icon"></i>
                         </a>
                     </div>
@@ -205,7 +243,7 @@
                             <img src="assets/images/body-background5.jpg" class="avatar" alt="author image">
                             <a href="#" class="grey-1 td-none link">Omisanya Boluwaduro</a>
                         </div>
-                        <a href="#" class="link" style="color: #205afd;">
+                        <a href="single-post.html" class="link" style="color: #205afd;">
                             Read More <i class="fa fa-arrow-right readmore-icon"></i>
                         </a>
                     </div>
@@ -241,7 +279,7 @@
                             <img src="assets/images/body-background5.jpg" class="avatar" alt="author image">
                             <a href="#" class="grey-1 td-none link">Omisanya Boluwaduro</a>
                         </div>
-                        <a href="#" class="link" style="color: #205afd;">
+                        <a href="single-post.html" class="link" style="color: #205afd;">
                             Read More <i class="fa fa-arrow-right readmore-icon"></i>
                         </a>
                     </div>
@@ -253,27 +291,23 @@
             </button>
         </div>
         <!-- Main Content Ends -->
-        <div class="sidebar">
+        <div class="sidebar"  data-aos="fade-left" data-aos-duration="900">
             <div class="sidebar-section topic-section">
                 <h2 class="title">
                     Topics
                 </h2>
                 <div class="topic-list">
-                    <a href="">Journalling</a>
-                    <a href="">Journalling</a>
-                    <a href="">Journalling</a>
-                    <a href="">Journalling</a>
-                    <a href="">Journalling</a>
-                    <a href="">Journalling</a>
-                    <a href="">Journalling</a>
-                    <a href="">Journalling</a>
-                    <a href="">Journalling</a>
-                    <a href="">Journalling</a>
+                    <a href="topic_posts.html">Journalling</a>
+                    <a href="topic_posts.html">Journalling</a>
+                    <a href="topic_posts.html">Journalling</a>
+                    <a href="topic_posts.html">Journalling</a>
+                    <a href="topic_posts.html">Journalling</a>
+                    <a href="topic_posts.html">Journalling</a>
+                    <a href="topic_posts.html">Journalling</a>
+                    <a href="topic_posts.html">Journalling</a>
+                    <a href="topic_posts.html">Journalling</a>
+                    <a href="topic_posts.html">Journalling</a>
                 </div>
-            </div>
-
-            <div class="sidebar-section">
-                <img src="assets/images/body-background4.jpg" class="tall-banner" style="width: 300px;"alt="Sidebar image">
             </div>
         </div>
 
@@ -357,7 +391,63 @@
     <!-- footer ends -->
 
     
-
+    <script>
+        $(".post-slider").each(function (index, slider) {
+          $(slider).slick({
+            slidesToShow: 3,
+            slidesToScroll: 1,
+            autoplay: false,
+            infinite: false,
+            autoPlaySpeed: 2000,
+            nextArrow: $(slider).siblings(".next-arrow"),
+            prevArrow: $(slider).siblings(".prev-arrow"),
+            responsive: [
+              {
+                breakpoint: 1024,
+                settings: {
+                  slidesToShow: 2,
+                  slidesToScroll: 3,
+                },
+              },
+  
+              {
+                breakpoint: 550,
+                settings: {
+                  slidesToShow: 1,
+                  slidesToScroll: 1,
+                },
+              },
+            ],
+          });
+        });
+  
+        // Searcch Icon Toggle
+        const mobileBreakpoint = 755;
+        const searchIcon = document.querySelector(".search-icon");
+        const headerSearchForm = document.querySelector(".header-search-form");
+        const searchInput = document.querySelector(".search-input");
+        const logoWrapper = document.querySelector(".logo-wrapper");
+  
+        function toggleSearchBar() {
+          searchIcon.classList.toggle("hide");
+          headerSearchForm.classList.toggle("hide");
+          searchInput.focus();
+          if (innerWidth <= mobileBreakpoint) {
+            logoWrapper.classList.toggle("hide");
+          }
+        }
+  
+        searchIcon.addEventListener("click", toggleSearchBar);
+        searchInput.addEventListener("blur", toggleSearchBar);
+  
+        // Searcch icon toggle
+      </script>
+       <script src="assets/Javascript/aos.js"></script>
+       <script>
+         AOS.init({
+           easing: "ease-in-out-sine",
+         });
+       </script>
 </body>
 
 </html>

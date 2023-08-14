@@ -23,7 +23,7 @@
 <body>
     <header class="animated fadeInDown">
         <div class="nav-overlay"></div>
-        <span role="button" class="menu-icon">
+        <span role="button" class="menu-icon" onClick="_open_menu();">
             <i class="fa fa-bars fa-lg"></i>
         </span>
         <a href="" class="logo-wrapper td-none">
@@ -46,6 +46,42 @@
 
     </header>
 
+    <!-- hamburger -->
+    <!-- <div class="menu-bar-overall-div">
+        <div class="side-menu-bar">
+            <ul class="navmenu">
+                <li class="navitem"><a href="">All Posts</a></li>
+                <li class="navitem"><a href="">Politics</a></li>
+                <li class="navitem">
+                    <a href="#">Best Articles <i class="fa fa-chevron-down"></i></a>
+                    <ul class="dropdown">
+                        <li><a href="">Best of 2022</a></li>
+                        <li><a href="">Best of 2021</a></li>
+                        <li><a href="">Best of 2020</a></li>
+                        <li><a href="">Best of 2019</a></li>
+                    </ul>
+                </li>
+                <li class="navitem"><a href="">Life OT</a></li>
+                <li class="navitem"><a href="">Register</a></li>
+                <li class="navitem"><a href="">Login</a></li>
+              <li class="navitem">
+                    <a href="#"><i class="fa fa-user-circle"></i> Scope Soft <i class="fa fa-chevron-down"></i></a>
+                    <ul class="dropdown">
+                        <li><a href="">Dashboard</a></li>
+                        <li><a href="">Logout</a></li>
+                    </ul>
+                </li> 
+            </ul>
+            
+          </div>
+          <span  onClick="_close_menu();">
+            <i class="fa fa-window-close fa-2x"></i>
+        </span>
+        </div>
+        
+    /hamburger -->
+
+
 
     <!-- Page Container -->
     <div class="page-wrapper">
@@ -61,27 +97,31 @@
                     <a href="#"><i class="fa fa-dashboard menu-icon"></i> Dashboard <i class="fa fa-chevron-right chevron-forward"></i></a>
                 </li>
                 <li>
-                    <a href="#"><i class="fa fa-eye menu-icon"> </i>Posts <i class="fa fa-chevron-right chevron-forward"></i></a>
+                    <a href="posts/index.html"><i class="fa fa-eye menu-icon"> </i>Posts <i class="fa fa-chevron-right chevron-forward"></i></a>
                 </li>
                 <li>
-                    <a href="#"><i class="fa fa-chevron-right menu-icon"> </i>Topics <i class="fa fa-chevron-right chevron-forward"></i></a>
+                    <a href="topics/index.html"><i class="fa fa-chevron-right menu-icon"> </i>Topics <i class="fa fa-chevron-right chevron-forward"></i></a>
                 </li>
                 <li>
-                    <a href="#"><i class="fa fa-users menu-icon"> </i>Users <i class="fa fa-chevron-right chevron-forward"></i></a>
+                    <a href="users/index.html"><i class="fa fa-users menu-icon"> </i>Users <i class="fa fa-chevron-right chevron-forward"></i></a>
                 </li>
                 <li>
-                    <a href="#"><i class="fa fa-lock menu-icon"> </i>Roles <i class="fa fa-chevron-right chevron-forward"></i></a>
+                    <a href="roles/index.html"><i class="fa fa-lock menu-icon"> </i>Roles <i class="fa fa-chevron-right chevron-forward"></i></a>
                 </li>
                 <li>
-                    <a href="#"><i class="fa fa-key menu-icon"> </i>Permissions <i class="fa fa-chevron-right chevron-forward"></i></a>
+                    <a href="permissions/index.html"><i class="fa fa-key menu-icon"> </i>Permissions <i class="fa fa-chevron-right chevron-forward"></i></a>
                 </li>
                 <li>
-                    <a href="#"><i class="fa fa-eye menu-icon"> </i>Collections <i class="fa fa-chevron-right chevron-forward"></i></a>
+                    <a href="collections/index.html"><i class="fa fa-eye menu-icon"> </i>Collections <i class="fa fa-chevron-right chevron-forward"></i></a>
                 </li>
             </ul>
         </div>
         <div class="page-content">
-            <h1 class="center">Administrative Dashboard</h1>
+            <div class="admin-container">
+                <h1 class="center">Administrative Dashboard</h1>
+            </div>
+            
+            
         </div>
     </div>
     <!-- //Page Container -->

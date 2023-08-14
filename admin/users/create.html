@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <link type="text/css" rel="stylesheet" href="../../assets/css/style.css" />
+  <link type="text/css" rel="stylesheet" href="../../assets/css/animate.css" />
+  <link type="text/css" rel="stylesheet" href="../../assets/css/aos.css" />
+  <link type="text/css" rel="stylesheet" href="../../assets/css/public.css" />
+  <link type="text/css" rel="stylesheet" href="../../assets/awesome-font/css/font-awesome.min.css" />
+  <script src="../../assets/Javascript/jquery.min.js"></script>
+  <script src="../../assets/Javascript/jquery-library.js"></script>
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Admin Dashboard --- Create User</title>
+</head>
+
+<body>
+  <header class="animated fadeInDown">
+    <div class="nav-overlay"></div>
+    <span role="button" class="menu-icon">
+      <i class="fa fa-bars fa-lg"></i>
+    </span>
+    <a href="" class="logo-wrapper td-none">
+      <div><span>Scope</span>Corner</div>
+    </a>
+
+    <nav>
+      <ul class="navmenu">
+        <li class="navitem">
+          <a href="#"><i class="fa fa-user-circle"></i> Scope Soft
+            <i class="fa fa-chevron-down"></i></a>
+          <ul class="dropdown">
+            <li><a href="">Dashboard</a></li>
+            <li><a href="">Logout</a></li>
+          </ul>
+        </li>
+      </ul>
+    </nav>
+  </header>
+
+  <!-- Page Container -->
+  <div class="page-wrapper">
+    <div class="sidebar-overlay"></div>
+    <div class="sidebar">
+      <div class="sidebar-author-mobile">
+        <img src="../../assets/images/Scope00.jpg" class="avatar" alt="" />
+        <h3 class="author-name">Omisanya Boluwaduro</h3>
+        <a href="" class="logout-link">Logout</a>
+      </div>
+      <ul class="list-menu">
+        <li>
+          <a href="../dashboard.html"><i class="fa fa-dashboard menu-icon"></i> Dashboard
+            <i class="fa fa-chevron-right chevron-forward"></i></a>
+        </li>
+        <li>
+          <a href="../posts/index.html"><i class="fa fa-eye menu-icon"> </i>Posts
+            <i class="fa fa-chevron-right chevron-forward"></i></a>
+        </li>
+        <li>
+          <a href="../topics/index.html"><i class="fa fa-chevron-right menu-icon"> </i>Topics
+            <i class="fa fa-chevron-right chevron-forward"></i></a>
+        </li>
+        <li>
+          <a href="../users/index.html"><i class="fa fa-users menu-icon"> </i>Users
+            <i class="fa fa-chevron-right chevron-forward"></i></a>
+        </li>
+        <li>
+          <a href="../roles/index.html"><i class="fa fa-lock menu-icon"> </i>Roles
+            <i class="fa fa-chevron-right chevron-forward"></i></a>
+        </li>
+        <li>
+          <a href="../permissions/index.html"><i class="fa fa-key menu-icon"> </i>Permissions
+            <i class="fa fa-chevron-right chevron-forward"></i></a>
+        </li>
+        <li>
+          <a href="../collections/index.html"><i class="fa fa-eye menu-icon"> </i>Collections
+            <i class="fa fa-chevron-right chevron-forward"></i></a>
+        </li>
+      </ul>
+    </div>
+    <div class="page-content">
+      <div class="admin-container">
+        <form action="" method="post" class="admin-form sm-box" enctype="multipart/form-data">
+          <h1 class="center">Create User</h1>
+
+          <div class="input-group avatar-input-group center">
+            <input type="file" name="avatar" id="avatar-input" class="hide avatar-input">
+            <button type="button" class="change-avatar-btn">
+              <span>Change</span>
+            </button>
+            <label for="avatar-input">Profile Image (Optional)</label>
+          </div>
+
+          <div class="input-group">
+            <label for="title">Username</label>
+            <input placeholder="Username" type="text" name="title" id="title" class="input-control" />
+          </div>
+
+          <div class="input-group">
+            <label for="title">Email</label>
+            <input placeholder="Email" type="email" name="email" id="title" class="input-control" />
+          </div>
+
+          <div class="input-group">
+            <label for="title">Password</label>
+            <input placeholder="Password" type="password" name="password" id="password" class="input-control" />
+          </div>
+
+
+          <div class="input-group">
+            <label for="title">Password Confirmation</label>
+            <input placeholder="Password Confirmation" type="password" name="password_conf" id="password"
+              class="input-control" />
+          </div>
+
+          <div class="input-group">
+            <label for="role">Role</label>
+            <select name="role" id="role" class="input-control">
+              <option value="" selected>Select Role</option>
+              <option value="Author">Author</option>
+              <option value="Admin" selected>Admin</option>
+              <option value="Editor" selected>Editor</option>
+            </select>
+          </div>
+
+          <div class="input-group">
+            <label for="bio">Bio</label>
+            <textarea placeholder="Bio" name="bio" id="bio" class="input-control"></textarea>
+          </div>
+
+          <div class="input-group">
+            <label for="twitter">Twitter (Optional)</label>
+            <input placeholder="Twitter" type="text" name="twitter" id="twitter" class="input-control" />
+          </div>
+
+          <div class="input-group">
+            <label for="linkedin">LinkedIn (Optional)</label>
+            <input placeholder="LinkedIn" type="text" name="linkedin" id="linkedin" class="input-control" />
+          </div>
+
+          <div class="input-group">
+            <label for="instagram">Instagram (Optional)</label>
+            <input placeholder="Instagram" type="text" name="instagram" id="instagram" class="input-control" />
+          </div>
+
+          <div class="input-group">
+            <button class="btn primary-btn big-btn">
+              <i class="fa fa-upload"></i> Save
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+  <!-- //Page Container -->
+
+
+  <script src="../../assets/Javascript/script.js"></script>
+  <script src="../../assets/Javascript/aos.js"></script>
+</body>
+
+
+
+
+</html>
