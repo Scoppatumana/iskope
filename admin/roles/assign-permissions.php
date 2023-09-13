@@ -2,7 +2,14 @@
     include("../../path.php");
     include(ROOT_PATH . '/app/database/connection.php');
     include(ROOT_PATH . '/app/database/controller/roles.php');
-    // guestOnly(); 
+    
+    $user = selectOne('users', ['id' => $_SESSION['id']]);
+    $role = selectOne('roles', ['id' => $user['role_id']]);
+
+    if(empty($_SESSION['id'])){
+      header('location: ' . BASE_URL . '/index.php');
+    }
+    adminOnly();
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -114,9 +121,22 @@
     const checkBoxList = assignPermissionForm.querySelectorAll('td input[type=checkbox]');
     checkBoxList.forEach(checkbox => checkbox.checked = selectAll.checked);
   });
+
+   // Sidebar Responsivenes
+   const menuIcon = document.querySelector('.menu-icon');
+        const sideBar = document.querySelector('.sidebar');
+        const sideBarOverlay = document.querySelector('.sidebar-overlay');
+
+        function toggleSidebar() {
+            sideBar.classList.toggle('open');
+            sideBarOverlay.classList.toggle('open');
+        }
+
+        menuIcon.addEventListener('click', toggleSidebar);
+
+        sideBarOverlay.addEventListener('click', toggleSidebar);
 </script>
 
-<script src="../../assets/Javascript/aos.js"></script>
-<script src="../../assets/Javascript/script.js"></script>
+
 
 </html>

@@ -2,7 +2,14 @@
     include("../path.php");
     include(ROOT_PATH . '/app/database/connection.php');
     include(ROOT_PATH . '/app/database/controller/users.php');
-    // guestOnly(); 
+    
+    $user = selectOne($table, ['id' => $_SESSION['id']]);
+    $role = selectOne('roles', ['id' => $user['role_id']]);
+
+    if(empty($_SESSION['id'])){
+      header('location: ' . BASE_URL . '/index.php');
+    }
+    allAdminsOnly();
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -31,7 +38,7 @@
     <div class="page-content">
       <div class="admin-container">
         <form action="" method="post" class="admin-form sm-box" enctype="multipart/form-data">
-          <h1 class="center">Create User</h1>
+          <h1 class="center">User Profile</h1>
           <?php include(ROOT_PATH . "/app/helpers/formErrors.php"); ?>
           <input type="hidden" value="<?php echo $id ?>" name="id" class="text-input"></input>
           <div class="input-group avatar-input-group center">
@@ -133,6 +140,20 @@
     $("#avatar-input").change(function () { 
         imagePreview(this); 
     });
+
+     // Sidebar Responsivenes
+     const menuIcon = document.querySelector('.menu-icon');
+        const sideBar = document.querySelector('.sidebar');
+        const sideBarOverlay = document.querySelector('.sidebar-overlay');
+
+        function toggleSidebar() {
+            sideBar.classList.toggle('open');
+            sideBarOverlay.classList.toggle('open');
+        }
+
+        menuIcon.addEventListener('click', toggleSidebar);
+
+        sideBarOverlay.addEventListener('click', toggleSidebar);
   </script>
 </body>
 

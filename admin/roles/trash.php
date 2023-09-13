@@ -2,7 +2,13 @@
     include("../../path.php");
     include(ROOT_PATH . '/app/database/connection.php');
     include(ROOT_PATH . '/app/database/controller/roles.php');
-    // guestOnly(); 
+    $user = selectOne('users', ['id' => $_SESSION['id']]);
+    $role = selectOne('roles', ['id' => $user['role_id']]);
+
+    if(empty($_SESSION['id'])){
+      header('location: ' . BASE_URL . '/index.php');
+    }
+    adminOnly(); 
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -39,7 +45,11 @@
 
 
           <div class="table-actions">
-            <span></span>
+            <button class="btn primary-btn small-btn" type="button" onclick="_detect_history();">
+              <i class="fa fa-chevron-left"></i> Previous
+            </button>
+
+
             <a href="create.php" class="btn primary-btn small-btn">
               <i class="fa fa-plus-circle"></i> Edit Role
             </a>
@@ -84,10 +94,29 @@
     </div>
   </div>
   <!-- //Page Container -->
+  <script>
+     // Sidebar Responsivenes
+     const menuIcon = document.querySelector('.menu-icon');
+        const sideBar = document.querySelector('.sidebar');
+        const sideBarOverlay = document.querySelector('.sidebar-overlay');
+
+        function toggleSidebar() {
+            sideBar.classList.toggle('open');
+            sideBarOverlay.classList.toggle('open');
+        }
+
+        menuIcon.addEventListener('click', toggleSidebar);
+
+        sideBarOverlay.addEventListener('click', toggleSidebar);
+
+         // History back
+         function _detect_history(){
+            window.history.back({id:1}), null, null;
+        }
+  </script>
 </body>
 <script src="../../assets/ckeditor5-build-classic/ckeditor.js"></script>
   <script src="../../assets/Javascript/ckeditor-script.js"></script>
-<script src="../../assets/Javascript/aos.js"></script>
 <script src="../../assets/Javascript/script.js"></script>
 
 </html>

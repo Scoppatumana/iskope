@@ -350,6 +350,134 @@ if(isset($_GET['del_id'])){
     exit();
 }
 
+if(isset($_POST['sendotp'])){
+    $errors = validateOtp($_POST);
+    $email = $_POST['email'];  // Get the user's email from the form
+    if(count($errors) === 0){
+        
+        $user = selectOne($table, ['email' => $email]);
+        if (count($user) < 1) {
+            array_push($errors, "User with this email does not exist");
+        } else {
+            // Step 3: Generate OTP and Send to User's Email
+            $otp = rand(100000, 999999); // Generate a 6-digit OTP
+            $expiration = date('Y-m-d H:i:s', strtotime('+5 minutes')); // Set OTP expiration time
+            
+            
+             // Send the OTP to the user's email
+             include(ROOT_PATH . "/app/database/reset_password_mail/mail.php");
+            // Store the OTP and expiration time in the database
+            $count = emailUpdate($table, ['otp' => $otp, 'expiration'=> $expiration], $email);
+           
+            $_SESSION['message'] = "An OTP has been sent to your mail. It expires in 5 minutes";
+            $_SESSION['type'] = "warning";
+            header('location: password-reset.php?email=' . $email);
+            exit();  
+        }
+    }
+}
+
+
+if(isset($_GET['email'])){
+    $user = selectOne($table, ['email'=> $_GET['email']]);
+    $id = $user['id'];
+}
+
+if(isset($_POST['reset-password'])){
+    $errors = validatePasswordReset($_POST);
+
+    if(count($errors) === 0){
+        // // Step 4: Verify OTP Page (verify-otp.php)
+        // Verify if the entered OTP matches the stored OTP and hasn't expired
+        $user = selectOne($table, ['id' => $_POST['id']]);
+        if(!empty($user['otp'])){
+            if ($_POST['otp'] == $user['otp'] ) {
+                unset($_POST['reset-password'], $_POST['otp'], $_POST['conf_password']);
+                // OTP is valid, allow the user to reset their password
+                $_POST['password'] = password_hash($_POST['password'], PASSWORD_DEFAULT);
+                // Update the user's password in the database
+                $count = update($table, ['password'=> $_POST['password']], $_POST['id']);
+                // Invalidate the OTP
+                $delete = update($table, ['otp'=> "", 'expiration'=> ""], $_POST['id']);
+                // Redirect the user to a login page
+                header('location: login.php?');
+                exit();  
+            } else {
+                array_push($errors, "OTP has either expired or was not sent, request for a new otp");
+            }
+        }
+        
+    }
+
+}
+
+
+
+// Pagination Codes
+// Pagination Code
+
+function pagination($currentPage= 1, $recordsPerPage=5){
+
+    //find the total number of results stored in the database  
+
+    $results = selectAll('users');  
+
+    $number_of_result = count($results);  
+    //determine the total number of pages available  
+    $numberOfPages = ceil ($number_of_result / $recordsPerPage);  
+    //determine which page number visitor is currently on  
+    
+//determine the sql LIMIT starting number for the results on the displaying page  
+$page_first_result = ($currentPage-1) * $recordsPerPage;  
+
+//retrieve the selected results from database  
+$result = limit('users', $page_first_result, $recordsPerPage);
+return [
+    'result' => $result,
+    'numofpages' => $numberOfPages,
+    'prevPage' => $currentPage > 1 ? $currentPage - 1 : false,
+    'nextPage' => $currentPage + 1 <= $numberOfPages ? $currentPage + 1 : false
+];
+} 
+$currentPage = isset($_GET['page']) ? $_GET['page'] : 1;
+$pageData = pagination($currentPage);
+$pageNumbers = getPaginationNumbers($currentPage, $pageData['numofpages']);
+
+
+
+
+function getPaginationNumbers($currentPage, $totalNumberOfPages) { 
+    $current = $currentPage; 
+    $last = $totalNumberOfPages; 
+    $delta = 2; 
+    $left = $current - $delta; 
+    $right = $current + $delta + 1; 
+    $range = array(); 
+    $rangeWithDots = array(); 
+    $l = -1; 
+    for ($i = 1; $i <= $last; $i++) { 
+        if ($i == 1 || $i == $last || $i >= $left && $i < $right) { 
+            array_push($range, $i); 
+        } 
+    } 
+    for($i = 0; $i<count($range); $i++) { 
+        if ($l != -1) { 
+            if ($range[$i] - $l === 2) { 
+                array_push($rangeWithDots, $l + 1); 
+            } else if ($range[$i] - $l !== 1) { 
+                array_push($rangeWithDots, '...'); 
+            } 
+        } 
+        array_push($rangeWithDots, $range[$i]); 
+        $l = $range[$i]; 
+    } 
+    return $rangeWithDots; 
+}
+
+
+
+
+
 
 
 ?>

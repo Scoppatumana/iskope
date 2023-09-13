@@ -1,24 +1,36 @@
 <?php
     include("../../path.php");  
     include(ROOT_PATH . "/app/database/controller/posts.php");
-    // adminOnly();
+    include(ROOT_PATH . "/app/database/controller/postsPaginationController.php");
+
+    
+    $user = selectOne('users', ['id' => $_SESSION['id']]);
+    $role = selectOne('roles', ['id' => $user['role_id']]);
 
 
+    if(empty($_SESSION['id'])){
+      header('location: ' . BASE_URL . '/index.php');
+    }
+    adminAndEditorOnly();
+
+    $featuredPost = selectOne('posts', ['featured_post' => 1]);
     $posts = array();
     $postTitle = 'Recent Posts';
 
-    if(isset($_POST['search-term'])){
-        $posts = searchPosts($_POST['search-term']);
-        
-        if(!empty($posts)){
-            $postTitle = "You searched for posts under '" . $_POST['search-term'] . "'";
-        }else{
-            $postTitle = "Your Search for '" . $_POST['search-term'] . "' yielded " . count($posts) . " result(s)";
-            $posts = selectAll('posts');
-        }
+
+  if(isset($_POST['search-term'])){
+    $posts = searchPosts($_POST['search-term']);
+    
+    if(!empty($posts)){
+        $postTitle = "You searched for posts under '" . $_POST['search-term'] . "'";
     }else{
+        $postTitle = "Your Search for '" . $_POST['search-term'] . "' yielded " . count($posts) . " result(s)";
         $posts = selectAll('posts');
     }
+}else{
+    $posts = $pageData['result'];
+}
+
  ?>
  
 <!DOCTYPE html>
@@ -55,18 +67,19 @@
           <h1 class="center" style="padding: 0; margin: 0">Posts</h1>
           <hr />
           
-          <form action="index.php" method="post" class="featured-post-form">
+          <form action="" method="post" class="featured-post-form">
+          <?php include(ROOT_PATH . '/app/helpers/formErrors.php'); ?>
             <strong>Featured Post:</strong>
             <span class="title-wrapper">
-              <span>This is a Sample Post Title</span>
+              <span><?php echo $featuredPost['title']; ?></span>
               <button type="button" class="change-featured-post">
                 Change
               </button>
             </span>
 
             <span class="input-wrapper hide">
-              <input type="text" name="title" id="" class="input-control-sm" placeholder="Enter Post Title..." />
-              <button type="submit" class="btn btn-primary">Update</button>
+              <input type="text" name="title" id="" class="input-control input-control-sm" placeholder="Enter Post Title..." />
+              <button type="submit" class="btn btn-primary" name="update-fp">Update</button>
             </span>
           </form>
 
@@ -111,6 +124,7 @@
               <tbody>
 
               <?php
+
                 foreach ($posts as $key => $post) {
                   $author = selectOne('users', ['id' => $post['user_id']]);
                   $topic = selectOne('topics', ['id' => $post['topic_id']]);
@@ -119,13 +133,13 @@
                   <td><?php echo $key + 1; ?></td>
                   <td><?php echo $author['username']; ?></td>
                   <td>
-                    <a href="#" target="_blank"> <?php echo $post['title']; ?> </a>
+                     <?php echo $post['title']; ?> 
                     <div class="td-action-links">
                       <a href="trash.php?trash_id=<?php echo $post['id']; ?>" class="trash">Trash</a>
                       <span class="inline-divider">|</span>
                       <a href="edit.php?id=<?php echo $post['id']; ?>" class="edit">Edit</a>
-                      <span class="inline-divider">|</span>
-                      <a href="related_posts.php" class="edit">Related Posts</a>
+                      <!-- <span class="inline-divider">|</span>
+                      <a href="related_posts.php" class="edit">Related Posts</a> -->
                     </div>
                   </td>
                   <td><?php echo $topic['name'] ?></td>
@@ -150,13 +164,23 @@
               <tfoot>
                 <td colspan="6">
                   <div class="pagination-links">
-                    <a href="#" class="link active">1</a>
-                    <a href="#" class="link">2</a>
-                    <a href="#" class="link">3</a>
-                    <a href="#" class="link">4</a>
-                    <a href="#" class="link">5</a>
-                    <a href="#" class="link">6</a>
-                    <a href="#" class="link">7</a>
+                  
+                    <?php
+                    foreach ($pageNumbers as $key => $page) {  
+                      if ($page == $currentPage || $page == '...') {
+                    ?>
+                    
+                    <a href="index.php?page=<?php echo $page ?>" class="link disabled"><?php echo $page ?></a>
+                    <?php
+                      }else{
+                    ?>
+                    
+                    <a href="index.php?page=<?php echo $page ?>" class="link active"><?php echo $page ?></a>
+                    <?php
+                    }
+                     }
+                    ?>
+                  
                   </div>
                 </td>
               </tfoot>
@@ -169,7 +193,33 @@
   <!-- //Page Container -->
 </body>
 
-<script src="../../assets/Javascript/aos.js"></script>
-<script src="../../assets/Javascript/script.js"></script>
+<script>
+  //  Featured post script
+  const changeFeaturedPostBtn = document.querySelector(".change-featured-post");
+  const inputWrapper = document.querySelector(".input-wrapper");
+  const titleWrapper = document.querySelector(".title-wrapper");
+
+  changeFeaturedPostBtn.addEventListener("click", function () {
+      inputWrapper.classList.toggle("hide");
+      titleWrapper.classList.toggle("hide");
+});
+
+
+
+        // Sidebar Responsivenes
+        const menuIcon = document.querySelector('.menu-icon');
+        const sideBar = document.querySelector('.sidebar');
+        const sideBarOverlay = document.querySelector('.sidebar-overlay');
+
+        function toggleSidebar() {
+            sideBar.classList.toggle('open');
+            sideBarOverlay.classList.toggle('open');
+        }
+
+        menuIcon.addEventListener('click', toggleSidebar);
+
+        sideBarOverlay.addEventListener('click', toggleSidebar);
+</script>
+
 
 </html>

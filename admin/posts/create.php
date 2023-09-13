@@ -1,7 +1,13 @@
 <?php
     include("../../path.php");  
     include(ROOT_PATH . "/app/database/controller/posts.php");
-    // adminOnly();
+    $user = selectOne('users', ['id' => $_SESSION['id']]);
+    $role = selectOne('roles', ['id' => $user['role_id']]);
+
+    if(empty($_SESSION['id'])){
+      header('location: ' . BASE_URL . '/index.php');
+    }
+    allAdminsOnly();
  ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -92,7 +98,12 @@
             </div>
 
           <div class="input-group">
-            <button class="btn primary-btn big-btn" type="submit" name="add-post">
+            <button class="btn primary-btn small-btn" type="button" onclick="_detect_history();">
+              <i class="fa fa-chevron-left"></i> Previous
+            </button>
+
+
+            <button class="btn primary-btn small-btn" type="submit" name="add-post">
               <i class="fa fa-upload"></i> Save
             </button>
           </div>
@@ -132,10 +143,30 @@
         reader.readAsDataURL(file);
       };
     });
+
+  
+        // Sidebar Responsivenes
+        const menuIcon = document.querySelector('.menu-icon');
+        const sideBar = document.querySelector('.sidebar');
+        const sideBarOverlay = document.querySelector('.sidebar-overlay');
+
+        function toggleSidebar() {
+            sideBar.classList.toggle('open');
+            sideBarOverlay.classList.toggle('open');
+        }
+
+        menuIcon.addEventListener('click', toggleSidebar);
+
+        sideBarOverlay.addEventListener('click', toggleSidebar);
+
+        // History back
+        function _detect_history(){
+            window.history.back({id:1}), null, null;
+        }
+       
   </script>
  <script src="../../assets/ckeditor5-build-classic/ckeditor.js"></script>
   <script src="../../assets/Javascript/ckeditor-script.js"></script>
-  <script src="../../assets/Javascript/aos.js"></script>
 </body>
 
 

@@ -35,6 +35,9 @@
 }
 
 
+   
+
+
 @font-face {
     font-family: Algeria;
     src: url(../fonts/ALGER.TTF);
@@ -273,6 +276,7 @@
 
 .page-container .main-content{
     width: 65%;
+
 }
 
 .page-container .sidebar{
@@ -518,6 +522,8 @@ footer .footer-overall .footer-container .link-container .link {
     color: #fff;
     align-items: center;
     justify-content: space-between;
+    font-family: footLight;
+    font-size: 1rem;
 }
 
 .footer-bottom-container .copyright p {
@@ -774,6 +780,8 @@ footer .footer-overall .footer-container .link-container .link {
     color: #4f5457;
  }
 
+
+
  /* Suggested Posts */
  
 .single-page .carousel-container .slider-arrow{
@@ -793,12 +801,7 @@ footer .footer-overall .footer-container .link-container .link {
     right: -40px;
 } */
 
- .single-page .carousel-container .post-card{
-    /* margin: 0 5px;
-    
-    width: 352px; */
 
-}
 
 .single-page .carousel-container .image-wrapper{
     height: 150px;
@@ -812,8 +815,19 @@ footer .footer-overall .footer-container .link-container .link {
 
 
 
-.single-page .carousel-container .post-info{
+/* .single-page .carousel-container .post-info{
     min-height: 150px;
+} */
+
+.single-page .carousel-container .post-card .post-info{
+    height :140px;
+    min-height: 200px;
+    position: relative;
+    padding: 15px;
+    border: 1px solid rgba(0,0,0,0.125);
+    /* display: flex;
+    flex-direction: column;
+    justify-content: space-between; */
 }
 
 .single-page .carousel-container .slick-list{

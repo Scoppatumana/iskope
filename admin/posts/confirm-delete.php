@@ -1,7 +1,14 @@
-<?php
+<?phpadminO
     include("../../path.php");  
     include(ROOT_PATH . "/app/database/controller/posts.php");
-    // adminOnly();
+
+    $user = selectOne('users', ['id' => $_SESSION['id']]);
+    $role = selectOne('roles', ['id' => $user['role_id']]);
+
+    if(empty($_SESSION['id'])){
+      header('location: ' . BASE_URL . '/index.php');
+    }
+    allAdminsOnly();
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -51,9 +58,22 @@
     </div>
   </div>
   <!-- //Page Container -->
+  <script>
+        // Sidebar Responsivenes
+        const menuIcon = document.querySelector('.menu-icon');
+        const sideBar = document.querySelector('.sidebar');
+        const sideBarOverlay = document.querySelector('.sidebar-overlay');
+
+        function toggleSidebar() {
+            sideBar.classList.toggle('open');
+            sideBarOverlay.classList.toggle('open');
+        }
+
+        menuIcon.addEventListener('click', toggleSidebar);
+
+        sideBarOverlay.addEventListener('click', toggleSidebar);
+    </script>
 </body>
 
-<script src="../../assets/Javascript/aos.js"></script>
-<script src="../../assets/Javascript/script.js"></script>
 
 </html>

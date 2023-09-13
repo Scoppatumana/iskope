@@ -2,6 +2,10 @@
     include("../../path.php");  
     include(ROOT_PATH . "/app/database/controller/permissions.php");
     // adminOnly();
+    if(empty($_SESSION['id'])){
+      header('location: ' . BASE_URL . '/index.php');
+    }
+    adminOnly();
  ?>
 <!DOCTYPE html>
 <html lang="en">

@@ -15,7 +15,7 @@
     <link type="text/css" rel="stylesheet" href="assets/css/public.css" />
     <link type="text/css" rel="stylesheet" href="assets/awesome-font/css/font-awesome.min.css" />
     <script src="assets/Javascript/jquery.min.js"></script>
-    <script src="assets/Javascript/jquery-library.js"></script>
+    <!-- <script src="assets/Javascript/jquery-library.js"></script> -->
 
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>User Login</title>

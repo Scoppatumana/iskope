@@ -1,6 +1,16 @@
 <?php
   include 'path.php'; 
-  include(ROOT_PATH . "/app/database/controller/topics.php");
+  include(ROOT_PATH . '/app/database/controller/topics.php');
+
+
+  if(isset($_GET['t'])){
+    $topic = selectOne('topics', ['name'=> $_GET['t']]);
+    if(empty($topic)){
+      header('location: index.php');
+    }
+}else{
+  header('location: index.php');
+}
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -9,19 +19,19 @@
 <meta charset="UTF-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <!-- Carousel Style -->
-  <link type="text/css" rel="stylesheet" href="assets/css/public.css" />
-  <link type="text/css" rel="stylesheet" href="assets/css/style.css" />
+  <link type="text/css" rel="stylesheet" href="../assets/css/public.css" />
+  <link type="text/css" rel="stylesheet" href="../assets/css/style.css" />
 
-  <link type="text/css" rel="stylesheet" href="assets/css/animate.css" />
-  <link type="text/css" rel="stylesheet" href="assets/css/public.css" />
-  <link type="text/css" rel="stylesheet" href="assets/css/aos.css" />
-  <link type="text/css" rel="stylesheet" href="assets/awesome-font/css/font-awesome.min.css" />
+  <link type="text/css" rel="stylesheet" href="../assets/css/animate.css" />
+  <link type="text/css" rel="stylesheet" href="../assets/css/public.css" />
+  <link type="text/css" rel="stylesheet" href="../assets/css/aos.css" />
+  <link type="text/css" rel="stylesheet" href="../assets/awesome-font/css/font-awesome.min.css" />
 
-  <script src="assets/Javascript/jquery.min.js"></script>
-  <script src="assets/Javascript/jquery-library.js"></script>
+  <script src="../assets/Javascript/jquery.min.js"></script>
+  <!-- <script src="../assets/Javascript/jquery-library.js"></script> -->
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Blog</title>
+    <title>Articles on <?php echo $topic['name']; ?></title>
 </head>
 
 <body>
@@ -34,26 +44,23 @@
                     <small>
                         <a href="index.php">Home</a> >
                         <span>
-                            Life Lessons
+                        <?php echo $topic['name']; ?>
                         </span>
                     </small>
                 </div>
 
                 <div class="banner-title">
-                    Life Lessons
+                <?php echo $topic['name']; ?>
                 </div>
 
                 <div class="post-details">
                     <div class="primary-fonts">
-                        The Nigerian Institute of Animal Science (NIAS) is a Professional and Industry Regulatory 
-                        Agency under the Federal Ministry of Agriculture and Rural Development, established by Act No. 26 
-                        of 2007 as Amended 2015.
-                         Among its mandates are the powers to prescribe and regulate the standards of 
+                    <?php echo $topic['description']; ?>
                     </div>
                 </div>
             </div>
-            <div class="right-box" data-aos="fade-left" data-aos-duration="800">
-                <div class="bg-image featured-image-wrapper" style="background-image: url(assets/images/company-employee-presenting-business-strategy-with-charts-monitor-planning-project-workmates-analyzing-financial-statistics-display-working-together-company-development_482257-37174.jpg);">
+            <div class="right-box" data-aos="fade-up" data-aos-duration="800">
+                <div class="bg-image featured-image-wrapper" style="background-image: url(../assets/images/company-employee-presenting-business-strategy-with-charts-monitor-planning-project-workmates-analyzing-financial-statistics-display-working-together-company-development_482257-37174.jpg);">
 
                 </div>
             </div>
@@ -66,170 +73,37 @@
     <!-- Page Container -->
     <div class="page-container default-page-container single-page" data-aos="fade-up" data-aos-duration="900">
         <!-- Main Content -->
-        <div class="main-content">
-            <article class="post-card flat-card">
-                <div class="image-wrapper bg-image" style="background-image: url(assets/images/body-background5.jpg);">
-                </div>
-                <div class="post-info">
-                    <div class="topic-wrapper">
-                        <span class="gray-1">5 min</span>
-                    </div>
-                    <div class="">
-    
-                        <h3 class="post-title">
-                            <a href="#" class="td-none">
-                            One day we will be happy and free
-                            </a>
-                        </h3>
-    
-                    </div>
-                    <div class="post-preview">
-                        <p>
-                            The Shurah committee was constituted in line with the constitution of the society on
-                            Sunday 15th May, 2023 at NASFAT Islamic Center, Iperu,.
-                        </p>
-                    </div>
-                    <div class="author-info">
-                        <div class="author">
-                            <img src="assets/images/Scope00.jpg" class="avatar" alt="author image">
-                            <a href="#" class="grey-1 td-none link">Omisanya Boluwaduro</a>
-                        </div>
-                        <a href="single-post.php" class="link" style="color: #205afd;">
-                            Read More <i class="fa fa-arrow-right readmore-icon"></i>
-                        </a>
-                    </div>
-                </div>
-    
-            </article>
 
-
-            <article class="post-card flat-card">
-                <div class="image-wrapper bg-image" style="background-image: url(assets/images/body-background5.jpg);">
-                </div>
-                <div class="post-info">
-                    <div class="topic-wrapper">
-                        <span class="gray-1">5 min</span>
-                    </div>
-                    <div class="">
-    
-                        <h3 class="post-title">
-                            <a href="#" class="td-none">
-                            One day we will be happy and free
-                            </a>
-                        </h3>
-    
-                    </div>
-                    <div class="post-preview">
-                        <p>
-                            The Shurah committee was constituted in line with the constitution of the society on
-                            Sunday 15th May, 2023 at NASFAT Islamic Center, Iperu,.
-                        </p>
-                    </div>
-                    <div class="author-info">
-                        <div class="author">
-                            <img src="assets/images/body-background5.jpg" class="avatar" alt="author image">
-                            <a href="#" class="grey-1 td-none link">Omisanya Boluwaduro</a>
-                        </div>
-                        <a href="single-post.php" class="link" style="color: #205afd;">
-                            Read More <i class="fa fa-arrow-right readmore-icon"></i>
-                        </a>
-                    </div>
-                </div>
-    
-            </article>
-
-
-            <article class="post-card flat-card">
-                <div class="image-wrapper bg-image" style="background-image: url(assets/images/body-background5.jpg);">
-                </div>
-                <div class="post-info">
-                    <div class="topic-wrapper">
-                        <span class="gray-1">5 min</span>
-                    </div>
-                    <div class="">
-    
-                        <h3 class="post-title">
-                            <a href="#" class="td-none">
-                            One day we will be happy and free
-                            </a>
-                        </h3>
-    
-                    </div>
-                    <div class="post-preview">
-                        <p>
-                            The Shurah committee was constituted in line with the constitution of the society on
-                            Sunday 15th May, 2023 at NASFAT Islamic Center, Iperu,.
-                        </p>
-                    </div>
-                    <div class="author-info">
-                        <div class="author">
-                            <img src="assets/images/body-background5.jpg" class="avatar" alt="author image">
-                            <a href="#" class="grey-1 td-none link">Omisanya Boluwaduro</a>
-                        </div>
-                        <a href="single-post.php" class="link" style="color: #205afd;">
-                            Read More <i class="fa fa-arrow-right readmore-icon"></i>
-                        </a>
-                    </div>
-                </div>
-    
-            </article>
-
-
-            <article class="post-card flat-card">
-                <div class="image-wrapper bg-image" style="background-image: url(assets/images/body-background5.jpg);">
-                </div>
-                <div class="post-info">
-                    <div class="topic-wrapper">
-                        <span class="gray-1">5 min</span>
-                    </div>
-                    <div class="">
-    
-                        <h3 class="post-title">
-                            <a href="#" class="td-none">
-                            One day we will be happy and free
-                            </a>
-                        </h3>
-    
-                    </div>
-                    <div class="post-preview">
-                        <p>
-                            The Shurah committee was constituted in line with the constitution of the society on
-                            Sunday 15th May, 2023 at NASFAT Islamic Center, Iperu,.
-                        </p>
-                    </div>
-                    <div class="author-info">
-                        <div class="author">
-                            <img src="assets/images/body-background5.jpg" class="avatar" alt="author image">
-                            <a href="#" class="grey-1 td-none link">Omisanya Boluwaduro</a>
-                        </div>
-                        <a href="single-post.php" class="link" style="color: #205afd;">
-                            Read More <i class="fa fa-arrow-right readmore-icon"></i>
-                        </a>
-                    </div>
-                </div>
-    
-            </article>
-            <button class="btn long-btn load-more-btn">
-                Load More
-            </button>
+       
+        <div class="main-content" data-aos="fade-up" data-aos-duration="1500">
+        <div class="message warning" id="errorContainer" style="display:none;">
+          <i class="fa fa-empty message-icon fa-lg"></i>
+          <span> No Posts found  <?php echo $topic['name']; ?> </span>
         </div>
+        <div id="postContainer">
+
+        </div>
+         
+            
+              <button class="btn long-btn load-more-btn" id="loadMore" style="margin-bottom: 15px; display:none;">
+                Load More
+              </button>
+          
+        </div>
+              
         <!-- Main Content Ends -->
-        <div class="sidebar"  data-aos="fade-left" data-aos-duration="900">
+        <div class="sidebar" >
             <div class="sidebar-section topic-section">
                 <h2 class="title">
                     Topics
                 </h2>
                 <div class="topic-list">
-                    <a href="topic_posts.php">Journalling</a>
-                    <a href="topic_posts.php">Journalling</a>
-                    <a href="topic_posts.php">Journalling</a>
-                    <a href="topic_posts.php">Journalling</a>
-                    <a href="topic_posts.php">Journalling</a>
-                    <a href="topic_posts.php">Journalling</a>
-                    <a href="topic_posts.php">Journalling</a>
-                    <a href="topic_posts.php">Journalling</a>
-                    <a href="topic_posts.php">Journalling</a>
-                    <a href="topic_posts.php">Journalling</a>
+                <?php
+
+                foreach ($topics as $key => $topic) {
+                  echo '<a href="../t/' . $topic['name'] . '">' . $topic['name'] . '</a>';
+                }
+                ?>
                 </div>
             </div>
         </div>
@@ -282,10 +156,67 @@
         navItem.classList.toggle('active');
       });
     });
-      </script>
-        <script src="assets/Javascript/script.js"></script>
 
-<script src="assets/Javascript/aos.js"></script>
+
+    // Load More
+
+        $(document).ready(function () {
+    var top = getTopicIDFromURL(); // You'll need to implement this function.
+console.log(top);
+    var limit = 5; // Number of posts to load at a time
+    var offset = 0; // Initial offset
+
+    function loadPosts() {
+        $.ajax({
+            url: '../fetch_posts.php',
+            type: 'GET',
+            data: {
+                topicID: top,
+                limit: limit,
+                offset: offset
+            },
+            success: function (data) {
+                if (data.trim() === '') {
+                  $("#loadMore").text("That's All");
+                  if (offset === 0) {
+                    $('#errorContainer').show();
+                  }
+                } else {
+                  $('#postContainer').append(data);
+                  offset += limit;
+                  $("#loadMore").text("Load More").show();
+                  $('#errorContainer').hide();
+                }
+            }
+        });
+    }
+
+    if(!$('#errorContainer').is(':visible')){
+      loadPosts();
+    }
+
+    $('#loadMore').click(function () {
+
+      $("#loadMore").text('Loading...'); 
+
+        loadPosts();
+    });
+});
+
+
+
+function getTopicIDFromURL() {
+    var pathArray = window.location.pathname.split('/');
+    var topicId = pathArray[pathArray.length - 1];
+    return topicId;
+}
+
+      </script>
+      <!-- <script src="../assets/Javascript/load_more.js"></script> -->
+        <script src="../assets/Javascript/script.js"></script>
+
+<script src="../assets/Javascript/aos.js"></script>
+
 <script>
   AOS.init({
     easing: "ease-in-out-sine",

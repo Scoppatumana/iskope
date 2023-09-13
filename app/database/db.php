@@ -113,6 +113,27 @@ require('connection.php');
         return $record;
     }
 
+    function emailUpdate($table, $data, $email){
+        global $conn;
+        $sql = "UPDATE $table SET ";
+        $i = 0;
+        foreach ($data as $key => $value) {
+            if ($i === 0) {
+                $sql = $sql . "$key = ?";
+            }else{
+                $sql = $sql . ",$key = ?";
+            }
+            $i++;
+        }
+
+        $sql = $sql . " WHERE email=?";
+        
+        $data['email'] = $email;
+        $stmt = executeQuery($sql, $data);
+        $record = $stmt->affected_rows;
+        return $record;
+    }
+
     // Function to Delete Row from the Database
     function delete($table, $id){
         global $conn;
@@ -122,6 +143,24 @@ require('connection.php');
         $record = $stmt->affected_rows;
         return $record;
     }
+
+    
+function slug($text){ 
+    // replace non letter or digits by - 
+    $text = preg_replace('~[^\\pL\d]+~u', '-', $text); 
+    // trim $text = trim($text, '-'); // transliterate 
+    $text = iconv('utf-8', 'us-ascii//TRANSLIT', $text); 
+    // lowercase 
+    $text = strtolower($text); 
+    // remove unwanted characters 
+    $text = preg_replace('~[^-\w]+~', '', $text); 
+    if (empty($text)) { 
+        return 'n-a'; 
+    } 
+    return $text; 
+    }
+
+
 
     function getPublishedPosts(){
         global $conn;
@@ -139,6 +178,25 @@ require('connection.php');
         $stmt = executeQuery($sql, ['published' => 1]);
         $record = $stmt->get_result()->fetch_all(MYSQLI_ASSOC);
         return $record;
+    }
+
+    function getFeaturedPosts(){
+        global $conn;
+        $sql = "SELECT 
+                p.*, u.username, 
+                u.image AS userImage, 
+                t.name AS topicName 
+            FROM posts AS p 
+            JOIN users AS u 
+            ON p.user_id=u.id 
+            JOIN topics AS t 
+            ON p.topic_id=t.id 
+            WHERE p.published=? 
+            AND p.featured_post=?";
+
+        $stmt = executeQuery($sql, ['published' => 1, 'featured_post'=>1]);
+        $result = $stmt->get_result()->fetch_assoc();
+        return $result;
     }
 
     function getPoliticsNews(){
@@ -219,7 +277,29 @@ require('connection.php');
     }
 
 
-    function getPostsByTopicId($topic_id){
+    function getPostsByTopicId($pub,$topic_id,$limit,$offset){
+        global $conn;
+        $sql = "SELECT 
+                p.*, u.username, 
+                u.image AS userImage, 
+                t.name AS topicName, 
+                t.description AS topicDescription
+            FROM posts AS p 
+            JOIN users AS u 
+            ON p.user_id=u.id 
+            JOIN topics AS t 
+            ON p.topic_id=t.id 
+            WHERE p.published=? AND topic_id=?
+            LIMIT ? OFFSET ?";
+
+        $stmt = $conn->prepare($sql);
+        $stmt->bind_param('iiii', $pub, $topic_id, $limit, $offset);
+        $stmt->execute();
+        $record = $stmt->get_result()->fetch_all(MYSQLI_ASSOC);
+        return $record;
+    }
+
+    function getPostsByUserId($pub,$user_id,$limit,$offset){
         global $conn;
         $sql = "SELECT 
                 p.*, u.username, 
@@ -230,11 +310,41 @@ require('connection.php');
             ON p.user_id=u.id 
             JOIN topics AS t 
             ON p.topic_id=t.id 
-            WHERE p.published=? AND topic_id=?";
+            WHERE p.published=? AND user_id=?
+            LIMIT ? OFFSET ?";
 
-        $stmt = executeQuery($sql, ['published' => 1, 'topic_id' => $topic_id]);
+        $stmt = $conn->prepare($sql);
+        $stmt->bind_param('iiii', $pub, $user_id, $limit, $offset);
+        $stmt->execute();
         $record = $stmt->get_result()->fetch_all(MYSQLI_ASSOC);
         return $record;
+    }
+
+    function getSinglePost($post_id){
+        global $conn;
+        $sql = "SELECT 
+                p.*, u.username, 
+                u.image AS userImage, 
+                t.name AS topicName 
+            FROM posts AS p 
+            JOIN users AS u 
+            ON p.user_id=u.id 
+            JOIN topics AS t 
+            ON p.topic_id=t.id 
+            WHERE p.id=?";
+
+        $stmt = executeQuery($sql, ['id' => $post_id]);
+        $record = $stmt->get_result()->fetch_all(MYSQLI_ASSOC);
+        return $record;
+    }
+
+    function selectRandom($table, $topic_id){
+        global $conn;
+        $sql = "SELECT * FROM $table WHERE topic_id= ? ORDER BY RAND() LIMIT 8";
+
+        $stmt = executeQuery($sql, ['topic_id' => $topic_id]);
+        $result = $stmt->get_result()->fetch_all(MYSQLI_ASSOC);
+        return $result;
     }
 
 
@@ -251,4 +361,40 @@ require('connection.php');
           } 
         } if ( ! $full ) $string = array_slice( $string, 0, 1 ); return $string ? implode( ', ', $string ) . ' ago' : 'just now'; 
       }
+
+      function limit($table, $first_result, $results_per_page, $conditions = []){
+        global $conn;
+       
+
+        
+
+
+        if (empty($conditions)) {
+            $sql = "SELECT * FROM $table LIMIT $first_result , $results_per_page";
+            $stmt = $conn->prepare($sql);
+            $stmt->execute();
+            $result = $stmt->get_result()->fetch_all(MYSQLI_ASSOC);
+            return $result;
+        }else{
+            $sql = "SELECT * FROM $table ";
+            $i = 0;
+          
+            foreach ($conditions as $key => $value) {
+                if ($i === 0) {
+                   $sql = $sql . " WHERE $key = ?";
+                }else{
+                   $sql = $sql . " AND $key = ?";
+                }
+                $i++;
+            }
+            $sql = $sql . " LIMIT $first_result , $results_per_page";
+
+            $stmt = executeQuery($sql, $conditions);
+            $result = $stmt->get_result()->fetch_all(MYSQLI_ASSOC);
+            return $result;
+        }
+            
+    }
+
+
 ?>

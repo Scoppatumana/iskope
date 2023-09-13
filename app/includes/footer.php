@@ -31,7 +31,7 @@
                     <div class="overall-contact">
 
                         <div class="loc-img">
-                            <img src="assets/images/map-marker.png" alt="Scope Softwares Location">
+                            <img src="<?php echo BASE_URL ?> /assets/images/map-marker.png" alt="Scope Softwares Location">
                         </div>
 
                         No 10, Salami Otun Sowemimo Street, Behind Shasha, Iperu Remo, Ogun State.
@@ -39,7 +39,7 @@
 
                     <div class="overall-contact">
                         <div class="loc-img">
-                            <img src="assets/images/phone.png" alt="Scope Softwares Contact">
+                            <img src="<?php echo BASE_URL ?> /assets/images/phone.png" alt="Scope Softwares Contact">
                         </div>
 
                         +234-812-4576-661 <br>

@@ -2,7 +2,10 @@
     include("../../path.php");
     include(ROOT_PATH . '/app/database/connection.php');
     include(ROOT_PATH . '/app/database/controller/collections.php');
-
+    if(empty($_SESSION['id'])){
+      header('location: ' . BASE_URL . '/index.php');
+    }
+    adminOnly();
   ?>
 <!DOCTYPE html>
 <html lang="en">

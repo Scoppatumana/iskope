@@ -2,7 +2,14 @@
     include("../../path.php");
     include(ROOT_PATH . '/app/database/connection.php');
     include(ROOT_PATH . '/app/database/controller/roles.php');
-    // guestOnly(); 
+    
+    $user = selectOne('users', ['id' => $_SESSION['id']]);
+    $role = selectOne('roles', ['id' => $user['role_id']]);
+
+    if(empty($_SESSION['id'])){
+      header('location: ' . BASE_URL . '/index.php');
+    }
+    adminOnly();
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -39,7 +46,9 @@
 
 
           <div class="table-actions">
-            <span></span>
+          <a href="trash.php" class="btn warning-btn small-btn">
+                <i class="fa fa-trash"></i> Trash
+            </a>
             <a href="create.php" class="btn primary-btn small-btn">
               <i class="fa fa-plus-circle"></i> Add Role
             </a>
@@ -93,10 +102,24 @@
     </div>
   </div>
   <!-- //Page Container -->
+  <script>
+     // Sidebar Responsivenes
+     const menuIcon = document.querySelector('.menu-icon');
+        const sideBar = document.querySelector('.sidebar');
+        const sideBarOverlay = document.querySelector('.sidebar-overlay');
+
+        function toggleSidebar() {
+            sideBar.classList.toggle('open');
+            sideBarOverlay.classList.toggle('open');
+        }
+
+        menuIcon.addEventListener('click', toggleSidebar);
+
+        sideBarOverlay.addEventListener('click', toggleSidebar);
+  </script>
 </body>
 <script src="../../assets/ckeditor5-build-classic/ckeditor.js"></script>
-  <script src="../../assets/Javascript/ckeditor-script.js"></script>
-<script src="../../assets/Javascript/aos.js"></script>
+<script src="../../assets/Javascript/ckeditor-script.js"></script>
 <script src="../../assets/Javascript/script.js"></script>
 
 </html>

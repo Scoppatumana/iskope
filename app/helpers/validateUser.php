@@ -62,19 +62,6 @@
             }
         }
 
-        // if(isset($user['password']) || isset($user['create_password'])){
-        //     if(empty($user['password'])){
-        //         array_push($errors, "Password is required");
-        //     }
-
-        //     if(empty($user['create_password'])){
-        //         array_push($errors, "Password Confirmation is required");
-        //     }
-    
-        //     if($user['password'] !== $user['create_password']){
-        //         array_push($errors, "Password Do Not Match");
-        //     }
-        // }
 
         $existingUser = selectOne('users', ['email' => $user['email']]);
             if($existingUser){
@@ -106,4 +93,42 @@
         return $errors;
     }
 
+    function validateOtp($user){
+        $errors = array();
+        
+        if(empty($user['email'])){
+            array_push($errors, "Email is required");
+        }
+
+        return $errors;
+    }
+
+
+
+
+    function validatePasswordReset($user){
+        $errors = array();
+        
+        if(empty($user['otp'])){
+            array_push($errors, "OTP is required");
+        }
+
+        if(empty($user['password'])){
+            array_push($errors, "Password is required");
+        }
+
+        if(empty($user['conf_password'])){
+           array_push($errors, "Confirm the password created");
+        }
+
+        if($user['password'] !== $user['conf_password']){
+            array_push($errors, "Password Do Not Match");
+        }
+
+        return $errors;
+    }
+
+
 ?>
+
+

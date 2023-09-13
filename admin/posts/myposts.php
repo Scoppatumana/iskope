@@ -1,7 +1,36 @@
 <?php
     include("../../path.php");  
     include(ROOT_PATH . "/app/database/controller/posts.php");
-    // adminOnly();
+    include(ROOT_PATH . "/app/database/controller/myPostPaginationController.php");
+
+    $user = selectOne('users', ['id' => $_SESSION['id']]);
+    $role = selectOne('roles', ['id' => $user['role_id']]);
+    
+    if(empty($_SESSION['id'])){
+      header('location: ' . BASE_URL . '/index.php');
+    }
+    allAdminsOnly();
+
+
+
+
+
+  
+    
+  
+  if(isset($_POST['search-term'])){
+    $posts = searchPosts($_POST['search-term']);
+    
+    if(!empty($posts)){
+        $postTitle = "You searched for posts under '" . $_POST['search-term'] . "'";
+    }else{
+        $postTitle = "Your Search for '" . $_POST['search-term'] . "' yielded " . count($posts) . " result(s)";
+        $posts = selectAll('posts');
+    }
+}else{
+    $posts = $pageData['result'];
+}
+
  ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -67,7 +96,7 @@
             </div>
 
             <div class="table-buttons">
-              <a href="confirm-delete.php" class="btn warning-btn small-btn">
+              <a href="trash.php" class="btn warning-btn small-btn">
                 <i class="fa fa-trash"></i> Trash
               </a>
               <a href="create.php" class="btn primary-btn small-btn">
@@ -90,7 +119,7 @@
               <tbody>
 
               <?php
-                foreach ($myPosts as $key => $post) {
+                foreach ($pageData['result'] as $key => $post) {
                   $author = selectOne('users', ['id' => $post['user_id']]);
                   $topic = selectOne('topics', ['id' => $post['topic_id']]);
               ?>
@@ -116,13 +145,21 @@
               <tfoot>
                 <td colspan="6">
                   <div class="pagination-links">
-                    <a href="#" class="link active">1</a>
-                    <a href="#" class="link">2</a>
-                    <a href="#" class="link">3</a>
-                    <a href="#" class="link">4</a>
-                    <a href="#" class="link">5</a>
-                    <a href="#" class="link">6</a>
-                    <a href="#" class="link">7</a>
+                  <?php
+                    foreach ($pageNumbers as $key => $page) {  
+                      if ($page == $currentPage || $page == '...') {
+                    ?>
+                    
+                    <a href="myposts.php?page=<?php echo $page ?>" class="link disabled"><?php echo $page ?></a>
+                    <?php
+                      }else{
+                    ?>
+                    
+                    <a href="myposts.php?page=<?php echo $page ?>" class="link active"><?php echo $page ?></a>
+                    <?php
+                    }
+                     }
+                    ?>
                   </div>
                 </td>
               </tfoot>
@@ -133,9 +170,23 @@
     </div>
   </div>
   <!-- //Page Container -->
+  <script>
+    // Sidebar Responsivenes
+    const menuIcon = document.querySelector('.menu-icon');
+        const sideBar = document.querySelector('.sidebar');
+        const sideBarOverlay = document.querySelector('.sidebar-overlay');
+
+        function toggleSidebar() {
+            sideBar.classList.toggle('open');
+            sideBarOverlay.classList.toggle('open');
+        }
+
+        menuIcon.addEventListener('click', toggleSidebar);
+
+        sideBarOverlay.addEventListener('click', toggleSidebar);
+  </script>
 </body>
 
-<script src="../../assets/Javascript/aos.js"></script>
-<script src="../../assets/Javascript/script.js"></script>
+
 
 </html>

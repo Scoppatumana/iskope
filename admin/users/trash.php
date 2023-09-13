@@ -1,7 +1,14 @@
 <?php
     include("../../path.php");  
     include(ROOT_PATH . "/app/database/controller/users.php");
-    // adminOnly();
+    
+    $user = selectOne($table, ['id' => $_SESSION['id']]);
+    $role = selectOne('roles', ['id' => $user['role_id']]);
+
+    if(empty($_SESSION['id'])){
+      header('location: ' . BASE_URL . '/index.php');
+    }
+    adminOnly();
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -38,7 +45,10 @@
           <hr />
 
           <div class="table-actions">
-            <span></span>
+            <button class="btn primary-btn small-btn" type="button" onclick="_detect_history();">
+              <i class="fa fa-chevron-left"></i> Previous
+            </button>
+
             <a href="#" class="btn primary-btn small-btn">
               <i class="fa fa-setting"></i> Manage Post
             </a>
@@ -119,6 +129,26 @@
     </div>
   </div>
   <!-- //Page Container -->
+  <script>
+     // Sidebar Responsivenes
+     const menuIcon = document.querySelector('.menu-icon');
+        const sideBar = document.querySelector('.sidebar');
+        const sideBarOverlay = document.querySelector('.sidebar-overlay');
+
+        function toggleSidebar() {
+            sideBar.classList.toggle('open');
+            sideBarOverlay.classList.toggle('open');
+        }
+
+        menuIcon.addEventListener('click', toggleSidebar);
+
+        sideBarOverlay.addEventListener('click', toggleSidebar);
+
+         // History back
+         function _detect_history(){
+            window.history.back({id:1}), null, null;
+        }
+  </script>
 </body>
 
 <script src="../../assets/Javascript/aos.js"></script>

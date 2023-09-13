@@ -18,6 +18,9 @@
     $image = '';
 
 
+
+
+    
     if(isset($_POST['add-post'])){
         // adminOnly();
         // printResult($_FILES['image']['name']);
@@ -46,6 +49,7 @@
             $_POST['user_id'] = $_SESSION['id'];
             $_POST['published'] = isset($_POST['published']) ? 1 : 0;
             $_POST['body'] = htmlentities($_POST['body']);
+            $_POST['post_slug'] = slug($_POST['title']);
 
             $post = create($table, $_POST);
             printResult($post);
@@ -115,8 +119,7 @@
             // $_POST['user_id'] = $_SESSION['id'];
             $_POST['published'] = isset($_POST['published']) ? 1 : 0;
             $_POST['body'] = htmlentities($_POST['body']);
-            printResult($_POST);
-
+            $_POST['post_slug'] = slug($_POST['title']);
             $post_id = update($table, $_POST, $id);
             $findAuthor = selectOne($table, ['id' => $id]);
             $_SESSION['message'] = "Post Updated Successfully";
@@ -207,6 +210,34 @@
         exit();
     }
 
+    if(isset($_POST['update-fp'])){
 
+        $errors = array();
+        
+        if(empty($_POST['title'])){
+            array_push($errors, "Post title is required!!!");
+        }
+
+        if (count($errors) === 0) {
+            $post = selectOne($table, ['title'=> $_POST['title']]);
+            if(!empty($post)){
+                $checkFid = selectOne($table, ['featured_post' => 1]);
+                if(!empty($checkFid)){
+                    $fp_id = update($table, ['featured_post' => 0], $checkFid['id']);
+                }
+                $post_id = update($table, ['featured_post' => 1], $post['id']);
+                $_SESSION['message'] = "Featured Post Updated Successfully";
+                $_SESSION['type'] = "success";
+                header('location: ' . BASE_URL . '/admin/posts/index.php');
+                exit();
+            }else{
+                array_push($errors, "Post with that title does not exist");
+            }
+
+        }
+    }
+
+
+   
 
 ?>

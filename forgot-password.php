@@ -1,4 +1,8 @@
-<?php include 'path.php'; ?>
+<?php
+    include 'app/database/connection.php';
+    include("path.php");
+    include 'app/database/controller/users.php';
+ ?>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -11,7 +15,7 @@
     <link type="text/css" rel="stylesheet" href="assets/css/public.css" />
     <link type="text/css" rel="stylesheet" href="assets/awesome-font/css/font-awesome.min.css" />
     <script src="assets/Javascript/jquery.min.js"></script>
-    <script src="assets/Javascript/jquery-library.js"></script>
+    <!-- <script src="assets/Javascript/jquery-library.js"></script> -->
 
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Forgot Password</title>
@@ -23,6 +27,7 @@
     <div class="default-page-container">
         <form action="" method="post" class="admin-form auth-form small-form animated zoomIn" enctype="multipart/form-data">
             <h1 class="center form-title">Request new Password</h1>
+            <?php include("app/helpers/formErrors.php"); ?>
             <div class="lead-text">
                 Enter the email address with which you signed up on this website so we can assist
                 with resetting your password
@@ -33,7 +38,7 @@
             </div>
 
             <div class="input-group">
-                <button class="btn long-btn primary-btn big-btn">
+                <button class="btn long-btn primary-btn big-btn" name="sendotp" type="submit">
                     Send Reset Link
                 </button>
             </div>

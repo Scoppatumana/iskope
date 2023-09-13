@@ -2,14 +2,56 @@
   include 'path.php'; 
   include(ROOT_PATH . "/app/database/controller/posts.php");
 
-  if(isset($_GET['p_id'])){
-      $post = selectOne('posts', ['id'=> $_GET['p_id']]);
+  if(isset($_GET['p'])){
+      $post = selectOne('posts', ['post_slug'=> $_GET['p']]);
+      if(empty($post)){
+        header('location: index.php');
+      }
+  }else{
+    header('location: index.php');
   }
+
+
+
+
+  $posts = array();
+  $postTitle = 'You might want to see this';
+
+  
+
+  if(isset($_POST['search-term'])){
+      $posts = searchPosts($_POST['search-term']);
+      
+      if(!empty($posts)){
+          $postTitle = "You searched for posts under '" . $_POST['search-term'] . "'";
+      }else{
+          $postTitle = "Your Search for '" . $_POST['search-term'] . "' yielded " . count($posts) . " result(s)";
+          $posts = getPublishedPosts();
+      }
+  }else{
+      $posts = getPublishedPosts();
+  }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  $baseUrl ="http://localhost/scopeecorner/";
 
   $posts = selectAll('posts', ['published'=> 1]);
   $topics =  selectAll('topics');
   $user =  selectOne('users', ['id' => $post['user_id']]);
   $top_posts =  selectOne('topics', ['id' => $post['topic_id']]);
+  $randomPosts = selectRandom('posts', $top_posts['id']);
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -18,21 +60,21 @@
   <meta charset="UTF-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <!-- Carousel Style -->
-  <link type="text/css" rel="stylesheet" href="assets/css/public.css" />
-  <link type="text/css" rel="stylesheet" href="assets/css/style.css" />
+  <link type="text/css" rel="stylesheet" href="../assets/css/public.css" />
+  <link type="text/css" rel="stylesheet" href="../assets/css/style.css" />
 
-  <link type="text/css" rel="stylesheet" href="assets/css/animate.css" />
-  <link type="text/css" rel="stylesheet" href="assets/css/public.css" />
-  <link type="text/css" rel="stylesheet" href="assets/css/aos.css" />
-  <link type="text/css" rel="stylesheet" href="assets/awesome-font/css/font-awesome.min.css" />
+  <link type="text/css" rel="stylesheet" href="../assets/css/animate.css" />
+  <link type="text/css" rel="stylesheet" href="../assets/css/public.css" />
+  <link type="text/css" rel="stylesheet" href="../assets/css/aos.css" />
+  <link type="text/css" rel="stylesheet" href="../assets/awesome-font/css/font-awesome.min.css" />
 
-  <script src="assets/Javascript/jquery.min.js"></script>
-  <script src="assets/Javascript/jquery-library.js"></script>
-  <script src="assets/slick/slick.min.js"></script>
-  <link type="text/css" rel="stylesheet" href="assets/slick/slick.css" />
+  <script src="../assets/Javascript/jquery.min.js"></script>
+  <!-- <script src="../assets/Javascript/jquery-library.js"></script> -->
+  <script src="../assets/slick/slick.min.js"></script>
+  <link type="text/css" rel="stylesheet" href="../assets/slick/slick.css" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Blog</title>
+  <title>Post--- <?php echo $post['post_slug']; ?> </title>
 </head>
 
 <body>
@@ -53,7 +95,7 @@
 
         <div class="post-details">
           <div class="author-wrapper">
-            <img src="assets/images/developer.jpg" alt="" />
+            <img src="../assets/images/developer.jpg" alt="" />
             <div class="name-wrapper">
               <a href="user-posts.php" class="link td-none"><?php echo $user['username']; ?></a>
               <small class="grey-1"><?php echo date('F j, Y', strtotime($post['created_at'])); ?> &middot; <?php echo timeElapsedSinceNow( $post['created_at'] ) ; ?></small>
@@ -61,21 +103,21 @@
           </div>
           <div class="social-links">
             <span>Share</span>
-            <a href="<?php echo $user['instagram']; ?>" target="_blank" class="td-none">
-              <img src="assets/images/20230808_041244.png" alt="Instagram" />
+            <a href="http://www.linkedin.com/shareArticle?mini=true&url=<?php echo $baseUrl . $post['post_slug']; ?>" target="_blank" class="td-none">
+              <img src="../assets/images/20230808_041244.png" alt="Instagram" />
             </a>
-            <a href="<?php echo $user['facebook']; ?>" target="_blank" class="td-none">
-              <img src="assets/images/facebookicon.png" alt="Facebook" />
+            <a href="http://www.facebook.com/sharer.php?u=<?php echo $baseUrl . $post['post_slug']; ?>" target="_blank" class="td-none">
+              <img src="../assets/images/facebookicon.png" alt="Facebook" />
             </a>
-            <a href="<?php echo $user['twitter']; ?>" target="_blank" class="td-none">
-              <img src="assets/images/20230808_041537.png" alt="Twitter" />
+            <a href="http://twitter.com/share?text=Visit the link &url=<?php echo $baseUrl . $post['post_slug']; ?>&hashtags=blog,technosmarter,programming,tutorials,codes,examples,language,development" target="_blank" class="td-none">
+              <img src="../assets/images/20230808_041537.png" alt="Twitter" />
             </a>
           </div>
         </div>
       </div>
-      <div class="right-box animated fadeInRight">
+      <div class="right-box" data-aos="flip-right" data-aos-duration="800">
         <div class="bg-image featured-image-wrapper" style="
-              background-image: url(assets/images/postimages/<?php echo $post['image']; ?>);
+              background-image: url(../assets/images/postimages/<?php echo $post['image']; ?>);
             "></div>
       </div>
     </div>
@@ -94,24 +136,24 @@
       </div>
 
       <!-- Author Bio -->
-      <div class="author-bio" data-aos="zoom-in" data-aos-duration="500">
+      <div class="author-bio" data-aos="fade-down" data-aos-duration="800">
         <div class="avatar-wrapper">
-          <img src="assets/images/body-background5.jpg" class="avatar" alt="Author Image" />
+          <img src="../assets/images/userimages/<?php echo $user['image']; ?>" class="avatar" alt="Author Image" />
         </div>
         <div class="bio-wrapper">
-          <a href="#" class="link author-name td-none">
-            <h3>Omisanya Boluwaduro</h3>
+          <a href="user-posts.php?u_id=<?php echo $user['id']; ?>" class="link author-name td-none">
+            <h3><?php echo $user['username']; ?></h3>
           </a>
           <div class="primary-font">Content Creator</div>
           <div class="social-links">
             <a href="<?php echo $user['instagram']; ?>" target="_blank" class="td-none">
-              <img src="assets/images/20230808_041244.png" alt="Instagram" />
+              <img src="../assets/images/20230808_041244.png" alt="Instagram" />
             </a>
             <a href="<?php echo $user['facebook']; ?>" target="_blank" class="td-none">
-              <img src="assets/images/facebookicon.png" alt="Facebook" />
+              <img src="../assets/images/facebookicon.png" alt="Facebook" />
             </a>
             <a href="<?php echo $user['twitter']; ?>" target="_blank" class="td-none">
-              <img src="assets/images/20230808_041537.png" alt="Twitter" />
+              <img src="../assets/images/20230808_041537.png" alt="Twitter" />
             </a>
           </div>
         </div>
@@ -122,8 +164,8 @@
       <!-- Start of Carosuel -->
       <section class="page-section carousel-container" data-aos="fade-up" data-aos-duration="700">
         <div class="carousel-header">
-          <h2>You might want to see this</h2>
-          <a href="topic_posts.php">See All</a>
+          <h2><?php echo $postTitle ?></h2>
+          <a href="topic_posts.php?tp_id=<?php echo $top_posts['id']; ?>">See More</a>
         </div>
 
         <button class="slider-arrow prev-arrow">
@@ -135,89 +177,41 @@
         </button>
 
         <div class="post-slider">
-          <article class="post-card">
-            <div class="image-wrapper bg-image" style="
-                  background-image: url(assets/images/body-background5.jpg);
-                "></div>
+          <?php
+ 
+            foreach ($randomPosts as $key => $randomPost) {
+              $author = selectOne('users', ['id'=> $randomPost['user_id']]);
+          ?>
+            <article class="post-card">
+            <div class="image-wrapper bg-image" style="background-image: url(../assets/images/postimages/<?php echo $randomPost['image']; ?>);"></div>
             <div class="post-info">
               <div class="">
                 <h3 class="post-title">
-                  <a href="#" class="td-none">
-                    One day we will be happy and free
-                  </a>
+                <?php echo '<a href="'.$randomPost['post_slug'].'" class="td-none">';
+                    if (strlen($randomPost['title']) < 50) {
+                      echo $randomPost['title'];
+                    }else{
+                      echo substr($randomPost['title'], 0,50) . '...';
+                    }
+
+                  '</a>';
+                ?>
+             <a href=""></a>
                 </h3>
               </div>
               <div class="author-info">
                 <div class="author">
-                  <img src="assets/images/Scope00.jpg" class="avatar" alt="author image" />
-                  <a href="#" class="grey-1 td-none link">Omisanya Boluwaduro</a>
+                  <img src="../assets/images/userimages/<?php echo $author['image']; ?>" class="avatar" alt="author image" />
+                  <a href="user-posts.php?u_id=<?php echo $randomPost['user_id']; ?>" class="grey-1 td-none link"> <?php echo $author['username']; ?></a>
                 </div>
               </div>
             </div>
           </article>
 
-          <article class="post-card">
-            <div class="image-wrapper bg-image" style="
-                  background-image: url(assets/images/body-background5.jpg);
-                "></div>
-            <div class="post-info">
-              <div class="heading">
-                <h3 class="post-title">
-                  <a href="#" class="td-none">
-                    One day we will be happy and free
-                  </a>
-                </h3>
-              </div>
-              <div class="author-info">
-                <div class="author">
-                  <img src="assets/images/body-background5.jpg" class="avatar" alt="author image" />
-                  <a href="#" class="grey-1 td-none link">Omisanya Boluwaduro</a>
-                </div>
-              </div>
-            </div>
-          </article>
-
-          <article class="post-card">
-            <div class="image-wrapper bg-image" style="
-                  background-image: url(assets/images/body-background5.jpg);
-                "></div>
-            <div class="post-info">
-              <div class="">
-                <h3 class="post-title">
-                  <a href="#" class="td-none">
-                    One day we will be happy and free
-                  </a>
-                </h3>
-              </div>
-              <div class="author-info">
-                <div class="author">
-                  <img src="assets/images/body-background5.jpg" class="avatar" alt="author image" />
-                  <a href="#" class="grey-1 td-none link">Omisanya Boluwaduro</a>
-                </div>
-              </div>
-            </div>
-          </article>
-
-          <article class="post-card">
-            <div class="image-wrapper bg-image" style="
-                  background-image: url(assets/images/body-background5.jpg);
-                "></div>
-            <div class="post-info">
-              <div class="">
-                <h3 class="post-title">
-                  <a href="#" class="td-none">
-                    One day we will be happy and free
-                  </a>
-                </h3>
-              </div>
-              <div class="author-info">
-                <div class="author">
-                  <img src="assets/images/body-background5.jpg" class="avatar" alt="author image" />
-                  <a href="#" class="grey-1 td-none link">Omisanya Boluwaduro</a>
-                </div>
-              </div>
-            </div>
-          </article>
+          <?php
+            }
+          ?>
+          
         </div>
       </section>
       <!-- End of Carosuel -->
@@ -229,14 +223,14 @@
       <div class="sidebar-section topic-section">
         <h2 class="title">Topics</h2>
         <div class="topic-list">
-        <?php
+       
+          <?php
           $topics = selectAll('topics');
           foreach ($topics as $key => $topic) {
-        ?>
-          <a href="topic_posts.php?t_id=<?php echo $topic['id']; ?>"><?php echo $topic['name']; ?></a>
-        <?php
+              echo '<a href="../t/' . $topic['name'] . '">' . $topic['name'] . '</a>';
           }
-        ?>
+          ?>
+
         </div>
       </div>
     </div>
@@ -287,9 +281,9 @@
         });
   </script>
 
-  <script src="assets/Javascript/script.js"></script>
+  <script src="../assets/Javascript/script.js"></script>
 
-  <script src="assets/Javascript/aos.js"></script>
+  <script src="../assets/Javascript/aos.js"></script>
   <script>
     AOS.init({
       easing: "ease-in-out-sine",

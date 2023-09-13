@@ -14,4 +14,5 @@
     if($conn->connect_error){
         die('Database Connection Error' . $conn->connect_error);
     }
+    $url = "http://localhost/scopeecorner";
 ?>

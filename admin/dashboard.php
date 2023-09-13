@@ -1,6 +1,15 @@
 <?php
   include '../path.php'; 
-  include(ROOT_PATH . "/app/database/controller/topics.php");
+  include(ROOT_PATH . "/app/database/controller/users.php");
+
+  if(empty($_SESSION['id'])){
+    header('location: ' . BASE_URL . '/index.php');
+  }
+
+  $user = selectOne($table, ['id' => $_SESSION['id']]);
+  $role = selectOne('roles', ['id' => $user['role_id']]);
+  
+  allAdminsOnly();
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -15,13 +24,9 @@
     <link type="text/css" rel="stylesheet" href="../assets/css/aos.css">
     <link type="text/css" rel="stylesheet" href="../assets/css/public.css">
     <link type="text/css" rel="stylesheet" href="../assets/awesome-font/css/font-awesome.min.css">
-    <script src="../assets/Javascript/jquery.min.js"></script>
-    <script src="../assets/Javascript/jquery-library.js"></script>
-    <script src="../assets/slick/slick.min.js"></script>
-    <script src="../assets/Javascript/script.js"></script>
 
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Blog</title>
+    <title>Administrative Dashboard ----- Main Dashboard</title>
 </head>
 
 <body>
@@ -32,11 +37,23 @@
     <?php include(ROOT_PATH . "/app/includes/sidebar.php"); ?>
         <div class="page-content">
             <div class="admin-container">
+            <div class="admin-table lg-box">
                 <h1 class="center">Administrative Dashboard</h1>
+
+                <?php include(ROOT_PATH . "/app/includes/message.php"); ?>
+
+                <div class="admin-content">
+                    <ul class="welcome">
+                    <li>Welcome Back <?php echo $role['name']; ?> <?php echo $user['username']; ?>!!</li>
+                    </ul>
+                </div>
+
+                </div>
+        </div>
             </div>
             
 
-            <?php include(ROOT_PATH . "/app/includes/message.php"); ?>
+          
             
         </div>
     </div>
@@ -44,11 +61,7 @@
 
     
    
-    
 
-</body>
-
-<script src="../assets/Javascript/aos.js"></script>
     <script>
         // Sidebar Responsivenes
         const menuIcon = document.querySelector('.menu-icon');
@@ -63,6 +76,10 @@
         menuIcon.addEventListener('click', toggleSidebar);
 
         sideBarOverlay.addEventListener('click', toggleSidebar);
-        </script>
+    </script>
+
+</body>
+
+
 
 </html>

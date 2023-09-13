@@ -2,7 +2,14 @@
     include("../../path.php");
     include(ROOT_PATH . '/app/database/connection.php');
     include(ROOT_PATH . '/app/database/controller/topics.php');
-    // guestOnly(); 
+    
+    $user = selectOne('users', ['id' => $_SESSION['id']]);
+    $role = selectOne('roles', ['id' => $user['role_id']]);
+
+    if(empty($_SESSION['id'])){
+      header('location: ' . BASE_URL . '/index.php');
+    }
+    adminAndEditorOnly();
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -61,7 +68,7 @@
 
               <tbody>
                 <?php
-                  foreach ($topics as $key => $topic) {
+                  foreach ($pageData['result'] as $key => $topic) {
                     $postCount = selectAll('posts', ['topic_id' => $topic['id']]);
                 ?>
                 <tr>
@@ -82,6 +89,27 @@
                   }
                 ?>
               </tbody>
+              <tfoot>
+                  <td colspan="6">
+                    <div class="pagination-links">
+                    <?php
+                    foreach ($pageNumbers as $key => $page) {  
+                      if ($page == $currentPage || $page == '...') {
+                    ?>
+                    
+                    <a href="index.php?page=<?php echo $page ?>" class="link disabled"><?php echo $page ?></a>
+                    <?php
+                      }else{
+                    ?>
+                    
+                    <a href="index.php?page=<?php echo $page ?>" class="link active"><?php echo $page ?></a>
+                    <?php
+                    }
+                     }
+                    ?>
+                    </div>
+                  </td>
+                </tfoot>
             </table>
           </div>
         </div>
@@ -89,6 +117,21 @@
     </div>
   </div>
   <!-- //Page Container -->
+  <script>
+     // Sidebar Responsivenes
+     const menuIcon = document.querySelector('.menu-icon');
+        const sideBar = document.querySelector('.sidebar');
+        const sideBarOverlay = document.querySelector('.sidebar-overlay');
+
+        function toggleSidebar() {
+            sideBar.classList.toggle('open');
+            sideBarOverlay.classList.toggle('open');
+        }
+
+        menuIcon.addEventListener('click', toggleSidebar);
+
+        sideBarOverlay.addEventListener('click', toggleSidebar);
+  </script>
 </body>
 
 <script src="../../assets/Javascript/aos.js"></script>

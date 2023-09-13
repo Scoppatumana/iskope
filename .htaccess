@@ -1,0 +1,11 @@
+
+RewriteEngine On
+RewriteBase /iskope/
+
+
+RewriteCond %{REQUEST_FILENAME} !-d [NC]
+RewriteCond %{REQUEST_FILENAME} !-f [NC]
+
+RewriteRule ^p/([^/]+)$ single-post.php?p=$1 [QSA,L]
+RewriteRule ^t/([^/]+)$ topic_posts.php?t=$1 [QSA,L]
+RewriteRule ^u/([^/]+)$ user-posts.php?u-p=$1 [QSA,L]
