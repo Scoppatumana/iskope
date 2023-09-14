@@ -1,88 +1,61 @@
+<?php
 
-<?php 
-$smtp_host='mail.afootechglobal.com';
-$smtp_username='emma@afootechglobal.com';
-$smtp_password='$EMMAafoo@2022';
-$smtp_port=465;
-$sender_name='Iscope inc.';
+use PHPMailer\PHPMailer\PHPMailer;
+// use PHPMailer\PHPMailer\SMTP;
+use PHPMailer\PHPMailer\Exception;
 
-require 'PHPMailer/PHPMailerAutoload.php';
+require 'PHPMailer/src/PHPMailer.php';
+// require 'PHPMailer/src/SMTP.php';
+require 'PHPMailer/src/Exception.php';
 
-$mail = new PHPMailer;
-$mail->SMTPDebug = 0;                               // Enable verbose debug output
+$mail = new PHPMailer();
 
-$mail->isSMTP();                                      // Set mailer to use SMTP
-$mail->Host = $smtp_host;  // Specify main and backup SMTP servers
-$mail->SMTPAuth = true;                               // Enable SMTP authentication
-$mail->Username = $smtp_username;                 // SMTP username
-$mail->Password = $smtp_password;                           // SMTP password
-$mail->SMTPSecure = 'ssl';                            // Enable TLS encryption, `ssl` also accepted
-$mail->Port = $smtp_port;                                    // TCP port to connect to
+// Set mailer to use SMTP
+$mail->isMail();
 
-$mail->SMTPOptions = array(
-'ssl' => array(
-'verify_peer' => false,
-'verify_peer_name' => false,
-'allow_self_signed' => true
-)
-);
-$mail->WordWrap = 50;   
-$mail->isHTML(true);                                  // Set email format to HTML
+// Enable SMTP debugging (optional)
+// $mail->SMTPDebug = SMTP::DEBUG_OFF;
 
-?>
+// // Set Gmail SMTP server
+// $mail->setFrom('boluwasodiq314@gmail.com', 'Omisanya Sodiq');
 
+// Set SMTP port to 587 (TLS encryption)
+// $mail->Port = 587;
 
+// Enable TLS encryption
+// $mail->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS;
 
+// SMTP authentication
+// $mail->SMTPAuth = true;
 
+// Your Gmail email address and application-specific password
+// $mail->Username = 'boluwasodiq314@gmail.com';
+// $mail->Password = '@Scoppatumana2531';
 
+// Set the 'from' email address and name
+$mail->setFrom('boluwasodiq314@gmail.com', 'Iscope');
 
+// Add a recipient email address
+$mail->addAddress($email, $user['username']);
 
+// Email subject
+$mail->Subject = 'Reset Password With OTP';
 
+// Email body
+$mail->Body = 'Kindly Reset Your Password With this OTP ' . $otp;
 
+// Send the email
+// if ($mail->send()) {
+//     $message = 'Email sent successfully!';
+// } else {
+//     $message = 'Email could not be sent. Mailer Error: ' . $mail->ErrorInfo;
+// }
 
-
-
-
-
-
-
-
-
-
-
-<?php 
-
-$reciever_name=$user['username'];	
-$textarea="Reset your password using this OTP: $otp.";		  
-$message='
-<div style="width:70%; margin:auto; height:auto; min-width:300px;">
-<img src="cid:mem_password" width="100%">
-<div style="padding:15px; font-family:16px;">
-<p>
-Dear <strong >'.$reciever_name.'</strong>,<br>
-'.$textarea.'
-</p>
-</div>
-<div  style="min-height:30px;background:#333;text-align:left;color:#FFF;line-height:20px; padding:20px 10px 20px 50px;">
-&copy; All Right Reserved.</div>
-</div>
-';
-
-$send_to=$email;
-$subject="Reset Password - OTP";
-
-$mail->setFrom($smtp_username, $sender_name);
-$mail->AddAddress($send_to, $reciever_name);
-
-$mail->addReplyTo($smtp_username, $sender_name); // reply to the sender email
-
-$mail->Subject = $subject;
-$mail->addEmbeddedImage('reset_password_mail/img/mem_password.jpg', 'mem_password');
-$mail->Body = $message;
-$mail->AltBody = strip_tags($message);
-
-if(!$mail->send()){
-	echo 'this email not sent';
+if (function_exists('mail')) {
+    $message = 'Enabled';
+} else {
+    $message = 'Not Enabled';
 }
+
 
 ?>

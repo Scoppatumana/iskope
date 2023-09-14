@@ -366,10 +366,22 @@ if(isset($_POST['sendotp'])){
             
              // Send the OTP to the user's email
              include(ROOT_PATH . "/app/database/reset_password_mail/mail.php");
+            
+            // $headers = 'MIME-Version: 1.0' . "\r\n";
+            // $headers .= 'Content-Type: text/html; charset=ISO-8859-1' . "\r\n";
+
+
+            // if (mail($email, "Reset Your Pawword Using this OTP", "Use This OTP to reset your password " . $otp . ".")) {
+            //     $message= "Email sent Successfully";
+            // } else {
+            //      $lastError = error_get_last();
+            //      $message = $lastError['message'];
+            // }
+            
             // Store the OTP and expiration time in the database
-            $count = emailUpdate($table, ['otp' => $otp, 'expiration'=> $expiration], $email);
+            $count = emailUpdate($table, ['otp' => $otp, 'expiration' => $expiration], $email);
            
-            $_SESSION['message'] = "An OTP has been sent to your mail. It expires in 5 minutes";
+            $_SESSION['message'] = $message;
             $_SESSION['type'] = "warning";
             header('location: password-reset.php?email=' . $email);
             exit();  
